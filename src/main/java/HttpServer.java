@@ -5,6 +5,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HttpServer {
 
@@ -20,60 +23,37 @@ public class HttpServer {
     }
 
     public static void start(String[] args) throws IOException, URISyntaxException {
+        ExecutorService poolDeHilos = Executors.newFixedThreadPool(10);
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(35000);
+            serverSocket = new ServerSocket(getPort());
     } catch (IOException e){
             System.err.println("Could not listen on port: 35000.");
             System.exit(1);
         }
         boolean running = true;
-        while (running){
+        while (running) {
             Socket clientSocket = null;
             try {
                 System.out.println("Listo para recibir ...");
                 clientSocket = serverSocket.accept();
-            } catch (IOException e){
+            } catch (IOException e) {
                 System.err.println("Accept failed.");
                 System.exit(1);
             }
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(clientSocket.getInputStream()));
-            String inputLine;
-
-            String tipo = "";
-            String path = "";
-            boolean firstLine = true;
-
-            while ((inputLine = in.readLine()) != null){
-                if(firstLine){
-                    path = inputLine.split(" ")[1];
-                    tipo = path.split("\\.")[1];
-                    System.out.println("Path: " + path);
-                    URI resource = new URI(path);
-                    System.out.println("Path: " + resource.getPath());
-                    firstLine = false;
-                }
-                System.out.println("Received: " + inputLine);
-                if(!in.ready()){
-                    break;
-                }
-            }
-
-            OutLine outLine = new OutLine();
-
-            if (tipo.equals("html") || tipo.equals("js") || tipo.equals("css")){
-                outLine.salidaPathTxt(path,tipo,clientSocket);
-
-            } else if (tipo.equals("png") || tipo.equals("jpg")) {
-                outLine.salidaPathImage(path,tipo,clientSocket);
-            }else{
-                System.out.println("Tipo de archivo no admitido");
-            }
-            in.close();
-
-            clientSocket.close();
         }
+        RequestProcessor requestProcessor = new RequestProcessor(clientSocket);
+
+        poolDeHilos.execute(requestProcessor);
+        }
+
         serverSocket.close();
+    }
+
+    private static int getPort(){
+        if(System.getenv("PORT") != null){
+            return Integer.parseInt(System.getenv("PORT"));
+        }
+        return 36000;
     }
 }
