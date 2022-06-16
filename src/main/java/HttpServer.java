@@ -70,7 +70,7 @@ public class HttpServer {
                 outLine.salidaPathTxt(path,tipo,clientSocket);
 
             } else if (tipo.equals("png") || tipo.equals("jpg")) {
-                continue;
+                outLine.salidaPathImage(path,tipo,clientSocket);
             }
             in.close();
 
