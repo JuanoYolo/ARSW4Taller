@@ -1,14 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class HttpServer {
 
@@ -71,6 +67,8 @@ public class HttpServer {
 
             } else if (tipo.equals("png") || tipo.equals("jpg")) {
                 outLine.salidaPathImage(path,tipo,clientSocket);
+            }else{
+                System.out.println("Tipo de archivo no admitido");
             }
             in.close();
 
