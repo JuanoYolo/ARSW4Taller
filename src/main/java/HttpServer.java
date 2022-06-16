@@ -41,10 +41,8 @@ public class HttpServer {
                 System.err.println("Accept failed.");
                 System.exit(1);
             }
-        }
-        RequestProcessor requestProcessor = new RequestProcessor(clientSocket);
-
-        poolDeHilos.execute(requestProcessor);
+            RequestProcessor requestProcessor = new RequestProcessor(clientSocket);
+            poolDeHilos.execute(requestProcessor);
         }
 
         serverSocket.close();
