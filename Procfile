@@ -1,1 +1,1 @@
-    web: java -cp ./target/classes HttpServerController
+web: java -cp ./target/classes HttpServerController
