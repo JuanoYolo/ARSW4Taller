@@ -24,17 +24,19 @@
 ### Imagen
 ![Html](img/imageen.png)
 
+### Pagina no existente
+![Html](img/error404.png)
 
-### Ejecutar el programa
+### Ejecutar el programa Localmente
 ```
 java -cp "./target/classes" HttpServerController
 ```
-### Links para probar el programa
+### Links para probar el programa en Heroku
 ```
-localhost:35000/estilo.css
-localhost:35000/gato.jpg
-localhost:35000/index.html
-localhost:35000/logoEscuela.js
+https://pacific-dusk-33543.herokuapp.com/estilo.css
+https://pacific-dusk-33543.herokuapp.com/gato.jpg
+https://pacific-dusk-33543.herokuapp.com/index.html
+https://pacific-dusk-33543.herokuapp.com/logoEscuela.js
 ```
 
 ### Generar JavaDoc
